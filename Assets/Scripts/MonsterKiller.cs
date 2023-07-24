@@ -9,10 +9,10 @@ public class MonsterKiller : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Booster collision");
-        //Destroy(GameObject.FindWithTag("Monster"));
-        foreach(var x in monsterSpawner.Monsters)
+        Destroy(gameObject);
+        foreach(var monster in monsterSpawner.Monsters)
         {
-            Destroy(x);
+            Destroy(monster);
         }
     }
 }

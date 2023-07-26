@@ -6,7 +6,8 @@ using System;
 
 public class MonsterController : MonoBehaviour
 {
-    public event Action OnMonsterKilled;
+    //public event Action OnMonsterKilled;
+    public event Action<GameObject> OnMonsterDestroyed;
 
     [SerializeField] private Animator animator;
     [SerializeField] private Transform monster;
@@ -85,7 +86,7 @@ public class MonsterController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Monster collision");
+       // Debug.Log("Monster collision");
         health = health - 2;
     }
 
@@ -96,6 +97,7 @@ public class MonsterController : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnMonsterKilled?.Invoke();
+        //OnMonsterKilled?.Invoke();
+        OnMonsterDestroyed(gameObject);
     }
 }

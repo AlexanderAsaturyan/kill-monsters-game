@@ -22,6 +22,8 @@ public class MonsterSpawner : MonoBehaviour
     private float delayTime;
     private float randomSeconds;
     private bool canSpawn = true;
+    private int monstersCount = 0;
+    public int MonstersCount => monstersCount;
 
     private List<GameObject> monsters = new List<GameObject>();
     public List<GameObject> Monsters => monsters;
@@ -38,7 +40,7 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Can Spawn: " + canSpawn);
+        //Debug.Log("Can Spawn: " + canSpawn);
       //  Debug.Log($"Delay time: {delayTime}");
 
         if (monsters.Count == 10)
@@ -81,6 +83,13 @@ public class MonsterSpawner : MonoBehaviour
         canSpawn = true;
     }
 
+    private void RemoveMonsterFromList(GameObject monster)
+    {
+        monsters.Remove(monster);
+        monstersCount--;
+        Debug.LogError("monster removed. Monsters.Count: " + monsters.Count);
+    }
+
     private IEnumerator InstantiateMonster()
     {
         while (true)
@@ -92,8 +101,12 @@ public class MonsterSpawner : MonoBehaviour
                 randZ = random.Next(5, 20);
                 GameObject monsterGO = Instantiate(monsterPrefab, new Vector3(randX, 0, randZ), monsterRotation);
                 MonsterParent monster = monsterGO.GetComponent<MonsterParent>();
-                monster.MonsterController.OnMonsterKilled += gameController.IncrementPonits;
+                monster.MonsterController.OnMonsterDestroyed += gameController.IncrementPonits;
+                monster.MonsterController.OnMonsterDestroyed += RemoveMonsterFromList;
+
                 monsters.Add(monsterGO);
+                monstersCount++;
+                Debug.Log("Monster spawned");
             }
 
             else

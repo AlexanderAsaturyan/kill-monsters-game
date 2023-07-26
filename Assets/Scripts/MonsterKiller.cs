@@ -12,6 +12,7 @@ public class MonsterKiller : MonoBehaviour
         Destroy(gameObject);
         foreach(var monster in monsterSpawner.Monsters)
         {
+           // monsterSpawner.Monsters.Remove(monster);
             Destroy(monster);
         }
     }

@@ -13,7 +13,7 @@ public class MonsterController : MonoBehaviour
 
     public Animator Animator => animator;
 
-    private float health = 4;
+    private float health = 2;
 
     private int isWalkingHash;
     private int isRunningHash;
@@ -92,6 +92,10 @@ public class MonsterController : MonoBehaviour
     private void DestroyMonster()
     {
         Destroy(transform.parent.gameObject);
+    }
+
+    private void OnDestroy()
+    {
         OnMonsterKilled?.Invoke();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterKiller : MonoBehaviour
 {
-    [SerializeField] MonsterSpawner monsterSpawner;
+    [SerializeField] private MonsterSpawner monsterSpawner;
 
     private void OnCollisionEnter(Collision collision)
     {

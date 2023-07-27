@@ -22,7 +22,6 @@ public class GameController : MonoBehaviour
     {
         popup.OnBackToMenuButtonClicked += GoToMenu;
         scoreText.text = $"Score: {score}";
-       // backToMenuButton.onClick.AddListener(GoToMenu);
     }
 
     private void GoToMenu()
@@ -32,21 +31,18 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-       // Debug.Log("Monster count: " + monsterSpawner.Monsters.Count);
         if (monsterSpawner.MonstersCount == 10 && !gunDestroyed)
         {
-           // Destroy(gun.gameObject);
-          //  Destroy(monsterSpawner);
+            Destroy(gun.gameObject);
             foreach (var monster in monsterSpawner.Monsters)
             {
                 if(monster.gameObject != null)
                 {
                     monster.gameObject.SetActive(false);
                 }
-               // monsterSpawner.Monsters.Remove(monster);
-                //Destroy(monster.gameObject);
             }
             monsterSpawner.gameObject.SetActive(false);
+            popup.PopupScoreText.text = scoreText.text;
             popup.gameObject.SetActive(true);
 
             gunDestroyed = true;
@@ -62,7 +58,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void IncrementPonits(GameObject monster)
+    public void IncrementScore(GameObject monster)
     {
         if (monsterSpawner.MonstersCount == 10)
         {

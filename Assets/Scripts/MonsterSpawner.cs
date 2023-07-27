@@ -101,7 +101,7 @@ public class MonsterSpawner : MonoBehaviour
                 randZ = random.Next(5, 20);
                 GameObject monsterGO = Instantiate(monsterPrefab, new Vector3(randX, 0, randZ), monsterRotation);
                 MonsterParent monster = monsterGO.GetComponent<MonsterParent>();
-                monster.MonsterController.OnMonsterDestroyed += gameController.IncrementPonits;
+                monster.MonsterController.OnMonsterDestroyed += gameController.IncrementScore;
                 monster.MonsterController.OnMonsterDestroyed += RemoveMonsterFromList;
 
                 monsters.Add(monsterGO);

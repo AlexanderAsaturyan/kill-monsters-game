@@ -587,6 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backToMenuButton: {fileID: 1073454538}
+  popupScoreText: {fileID: 1191146685}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

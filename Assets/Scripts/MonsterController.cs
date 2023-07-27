@@ -6,15 +6,16 @@ using System;
 
 public class MonsterController : MonoBehaviour
 {
-    //public event Action OnMonsterKilled;
     public event Action<GameObject> OnMonsterDestroyed;
 
     [SerializeField] private Animator animator;
     [SerializeField] private Transform monster;
+    [SerializeField] private GameController gameController;
 
     public Animator Animator => animator;
 
-    private float health = 2;
+    public float health;
+    public float speed;
 
     private int isWalkingHash;
     private int isRunningHash;
@@ -22,8 +23,14 @@ public class MonsterController : MonoBehaviour
     private bool isWalking;
     private bool wPressed;
     private bool isRunning;
-    private bool leftShiftPressed;
-    public float speed = 0.2f;
+    private bool leftShiftPressed; 
+
+    public void SetHealthAndSpeed(float health, float speed)
+    {
+        this.health = health;
+        this.speed = speed;
+    }
+
 
    // public float Speed => speed;
 
@@ -35,6 +42,7 @@ public class MonsterController : MonoBehaviour
     private void Start()
     {
         animator.SetBool("isWalking", true);
+        //animator.SetBool("isRunning", true);
 
         randX = random.Next(-5, 5);
         targetPosition = new Vector3(randX, 0, 1);
@@ -87,7 +95,7 @@ public class MonsterController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
        // Debug.Log("Monster collision");
-        health = health - 2;
+        health--;
     }
 
     private void DestroyMonster()
@@ -97,7 +105,6 @@ public class MonsterController : MonoBehaviour
 
     private void OnDestroy()
     {
-        //OnMonsterKilled?.Invoke();
         OnMonsterDestroyed(gameObject);
     }
 }

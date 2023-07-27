@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -12,12 +13,14 @@ public class GameController : MonoBehaviour
     [SerializeField] private GunController gun;
     [SerializeField] private GameoverPopup popup;
     [SerializeField] private TextMeshProUGUI scoreText;
-    private int score = 0;
+    public int score = 0;
 
     private bool gunDestroyed;
 
     private void Start()
     {
+        monster.MonsterController.speed = 0.2f;
+        monster.MonsterController.health = 2f;
         popup.OnBackToMenuButtonClicked += GoToMenu;
         scoreText.text = $"Score: {score}";
     }
@@ -29,9 +32,12 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+        Debug.LogError(monsterSpawner.randomSeconds);
+       // Debug.LogError(monster.MonsterController.speed);
         if (monsterSpawner.MonstersCount == 10 && !gunDestroyed)
         {
             Destroy(gun.gameObject);
+
             foreach (var monster in monsterSpawner.Monsters)
             {
                 if(monster.gameObject != null)
@@ -39,30 +45,36 @@ public class GameController : MonoBehaviour
                     monster.gameObject.SetActive(false);
                 }
             }
+
             monsterSpawner.gameObject.SetActive(false);
             popup.PopupScoreText.text = scoreText.text;
             popup.gameObject.SetActive(true);
-
             gunDestroyed = true;
-        }
-
-        if (score == 10)
-        {
-           // Debug.Log("Running");
-            monster.MonsterController.Animator.SetBool("isRunning", true);
-            monster.MonsterController.Animator.SetBool("isWalking", false);
-            monster.MonsterController.speed = 4f;
-          //  Debug.Log(monster.MonsterController.Animator.GetBool("isRunning"));
         }
     }
 
-    public void IncrementScore(GameObject monster)
+    private void ChangeGameDifficulty()
+    {
+        monster.MonsterController.speed = 0.8f;
+        monster.MonsterController.health = 4;
+        // monsterSpawner.randomSeconds = monsterSpawner.randomSeconds * 100f;
+        monsterSpawner.SetDifficulty(4f, 0.8f, 2);
+    }
+
+
+    public void IncrementScore(GameObject monsterr)
     {
         if (monsterSpawner.MonstersCount == 10)
         {
             return;            
         }
+
         score++;
         scoreText.text = $"Score: {score}";
+
+        if(score == 5) 
+        {
+            ChangeGameDifficulty();
+        }
     }
 }

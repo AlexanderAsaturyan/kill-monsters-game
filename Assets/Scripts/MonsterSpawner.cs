@@ -13,6 +13,16 @@ public class MonsterSpawner : MonoBehaviour
 
     WaitForSeconds waitForTwoSeconds = new WaitForSeconds(2);
 
+    private float health = 1;
+    private float speed = 5;
+    private int difficultyLevel = 1;
+
+    public void SetDifficulty(float health, float speed, int difficultyLevel)
+    {
+        this.health = health;
+        this.speed = speed;
+        this.difficultyLevel = difficultyLevel;
+    }
 
     private System.Random random = new System.Random();
     private int randX;
@@ -20,7 +30,7 @@ public class MonsterSpawner : MonoBehaviour
     private Quaternion monsterRotation = new Quaternion(0, 180, 0, 0);
 
     private float delayTime;
-    private float randomSeconds;
+    public float randomSeconds;
     private bool canSpawn = true;
     private int monstersCount = 0;
     public int MonstersCount => monstersCount;
@@ -63,7 +73,6 @@ public class MonsterSpawner : MonoBehaviour
             // monsters voices code here
             yield return waitForTwoSeconds;
         }
-
     }
 
     private IEnumerator GenerateRandomSeconds()
@@ -71,8 +80,16 @@ public class MonsterSpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.001f);
-            randomSeconds = (float)random.Next(5, 20) / 10;
-           // delayTime = randomSeconds;
+
+            if(gameController.score < 5)
+            {
+               randomSeconds = (float)random.Next(5, 20) / 10;
+            }
+            else
+            {
+                randomSeconds = (float)random.Next(5, 20) / 10 / 1.5f;
+            }
+
         }
     }
 
@@ -87,7 +104,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         monsters.Remove(monster);
         monstersCount--;
-        Debug.LogError("monster removed. Monsters.Count: " + monsters.Count);
+       // Debug.LogError("monster removed. Monsters.Count: " + monsters.Count);
     }
 
     private IEnumerator InstantiateMonster()
@@ -106,6 +123,7 @@ public class MonsterSpawner : MonoBehaviour
 
                 monsters.Add(monsterGO);
                 monstersCount++;
+                monster.MonsterController.SetHealthAndSpeed(health, speed);
                 Debug.Log("Monster spawned");
             }
 

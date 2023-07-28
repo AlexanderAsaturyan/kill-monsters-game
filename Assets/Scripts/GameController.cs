@@ -96,6 +96,7 @@ public class GameController : MonoBehaviour
         if (score == 10)
         {
             ChangeGameDifficulty();
+            gunUpgrader.gameObject.SetActive(true);
         }
     }
 }

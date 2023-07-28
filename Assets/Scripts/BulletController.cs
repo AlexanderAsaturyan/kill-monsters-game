@@ -6,8 +6,6 @@ public class BulletController : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision");
-        //Destroy(collision.gameObject);
         Destroy(gameObject);
     }
 }

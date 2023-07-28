@@ -8,13 +8,19 @@ public class GunController : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private Rigidbody bulletPrefab;
     [SerializeField] private GunUpgrader gunUpgrader;
-    
+    [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private MeshRenderer bulletMeshRenderer;
 
-    private float sensitivity = 5f;
+    private Rigidbody bullet;
+
+
     private Vector2 turn;
+    private float sensitivity = 5f;
     private float damage = 1;
     private float bulletSpeed = 70;
     public float Damage => damage;
+
+    private bool isUpgraded;
 
     private void Start()
     {
@@ -29,8 +35,14 @@ public class GunController : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            Rigidbody bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.velocity = bulletSpawnPoint.forward * bulletSpeed;
+           // var x = bullet.GetComponent<MeshRenderer>().material.color;
+            if (isUpgraded)
+            {
+              //  x = Color.cyan;
+                bullet.GetComponent<MeshRenderer>().material.color = Color.cyan;
+            }
         }
     }
 
@@ -38,6 +50,7 @@ public class GunController : MonoBehaviour
     {
         damage = 2;
         bulletSpeed = 100;
-        // change color of bullet
+        meshRenderer.material.color = Color.green;
+        isUpgraded = true;
     }
 }

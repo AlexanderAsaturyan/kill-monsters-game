@@ -217,7 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2200108981126650074}
   monster: {fileID: 2199413626236141019}
-  speed: 0.2
+  gameController: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 2264587407915382393}
 --- !u!1 &2200108980688353619
 GameObject:
   m_ObjectHideFlags: 0

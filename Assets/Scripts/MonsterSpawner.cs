@@ -10,18 +10,19 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] private SpawnFreezer spawnFreezer;
     [SerializeField] private GameController gameController;
 
-
     WaitForSeconds waitForTwoSeconds = new WaitForSeconds(2);
 
+    private float speed = 0.2f;
     private float health = 1;
-    private float speed = 5;
     private int difficultyLevel = 1;
+    private Color color = Color.white;
 
-    public void SetDifficulty(float health, float speed, int difficultyLevel)
+    public void SetDifficulty(float health, float speed, int difficultyLevel, Color color)
     {
         this.health = health;
         this.speed = speed;
         this.difficultyLevel = difficultyLevel;
+        this.color = color;
     }
 
     private System.Random random = new System.Random();
@@ -30,7 +31,7 @@ public class MonsterSpawner : MonoBehaviour
     private Quaternion monsterRotation = new Quaternion(0, 180, 0, 0);
 
     private float delayTime;
-    public float randomSeconds;
+    private float randomSeconds;
     private bool canSpawn = true;
     private int monstersCount = 0;
     public int MonstersCount => monstersCount;
@@ -50,18 +51,9 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log("Can Spawn: " + canSpawn);
-      //  Debug.Log($"Delay time: {delayTime}");
+        Debug.Log("Difficulty level: " + difficultyLevel);
+        Debug.Log("Random seconds: " + randomSeconds);
 
-        if (monsters.Count == 10)
-        {
-            // Debug.Log("You lose!!! 10 monsters");
-        }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            StopAllCoroutines();
-        }
     }
 
     private IEnumerator PlayMonstersVoices()
@@ -81,15 +73,14 @@ public class MonsterSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(0.001f);
 
-            if(gameController.score < 5)
+            if(difficultyLevel == 1)
             {
                randomSeconds = (float)random.Next(5, 20) / 10;
             }
-            else
+            else if(difficultyLevel == 2)
             {
                 randomSeconds = (float)random.Next(5, 20) / 10 / 1.5f;
             }
-
         }
     }
 
@@ -123,7 +114,9 @@ public class MonsterSpawner : MonoBehaviour
 
                 monsters.Add(monsterGO);
                 monstersCount++;
-                monster.MonsterController.SetHealthAndSpeed(health, speed);
+                monster.MonsterController.SetHealthAndSpeed(health, speed, color);
+               // monster.MonsterController.meshRenderer.material.color = Color.red;
+              //  monster.MonsterController.SkinnedMeshRenderer.material.color = Color.red;
                 Debug.Log("Monster spawned");
             }
 

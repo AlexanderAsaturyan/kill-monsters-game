@@ -523,6 +523,7 @@ MonoBehaviour:
   gun: {fileID: 6285012210643535259}
   popup: {fileID: 666551775}
   scoreText: {fileID: 1767861362}
+  score: 0
 --- !u!4 &526176738
 Transform:
   m_ObjectHideFlags: 0
@@ -16736,9 +16737,6 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 1351207168}
   bulletPrefab: {fileID: 4826687800330267044, guid: 450e96ff789b377489984b244cdc6c3c, type: 3}
   bulletSpeed: 70
-  smooth: 8
-  multiplier: 4
-  sensitivity: 100000
 --- !u!1 &6630648352080287996
 GameObject:
   m_ObjectHideFlags: 0

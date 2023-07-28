@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
+using System.Threading;
 
 public class GameController : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        monster.MonsterController.speed = 0.2f;
-        monster.MonsterController.health = 2f;
+      //  monster.MonsterController.speed = 0.2f;
+      //  monster.MonsterController.health = 2f;
         popup.OnBackToMenuButtonClicked += GoToMenu;
         scoreText.text = $"Score: {score}";
     }
@@ -32,7 +33,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        Debug.LogError(monsterSpawner.randomSeconds);
+       // Debug.LogError(monsterSpawner.randomSeconds);
        // Debug.LogError(monster.MonsterController.speed);
         if (monsterSpawner.MonstersCount == 10 && !gunDestroyed)
         {
@@ -55,10 +56,11 @@ public class GameController : MonoBehaviour
 
     private void ChangeGameDifficulty()
     {
-        monster.MonsterController.speed = 0.8f;
-        monster.MonsterController.health = 4;
+        // monster.MonsterController.speed = 0.8f;
+        // monster.MonsterController.health = 4;
         // monsterSpawner.randomSeconds = monsterSpawner.randomSeconds * 100f;
-        monsterSpawner.SetDifficulty(4f, 0.8f, 2);
+        //monster.MonsterController.SkinnedMeshRenderer.material.color = Color.red;
+        monsterSpawner.SetDifficulty(2f, 0.8f, 2, Color.red);
     }
 
 
@@ -72,7 +74,7 @@ public class GameController : MonoBehaviour
         score++;
         scoreText.text = $"Score: {score}";
 
-        if(score == 5) 
+        if(score == 10) 
         {
             ChangeGameDifficulty();
         }

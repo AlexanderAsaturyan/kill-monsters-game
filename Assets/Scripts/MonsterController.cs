@@ -11,11 +11,12 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform monster;
     [SerializeField] private GameController gameController;
+    [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
 
     public Animator Animator => animator;
 
-    public float health;
-    public float speed;
+    private float health;
+    private float speed;
 
     private int isWalkingHash;
     private int isRunningHash;
@@ -25,11 +26,6 @@ public class MonsterController : MonoBehaviour
     private bool isRunning;
     private bool leftShiftPressed; 
 
-    public void SetHealthAndSpeed(float health, float speed)
-    {
-        this.health = health;
-        this.speed = speed;
-    }
 
 
    // public float Speed => speed;
@@ -65,6 +61,7 @@ public class MonsterController : MonoBehaviour
         }
 
 
+
        /* isWalking = animator.GetBool(isWalkingHash);
         wPressed = Input.GetKey(KeyCode.W);
         isRunning = animator.GetBool(isRunningHash);
@@ -91,6 +88,14 @@ public class MonsterController : MonoBehaviour
         }*/
 
         monster.transform.position = Vector3.Lerp(monster.transform.position, targetPosition, Time.deltaTime * speed);
+    }
+
+
+    public void SetHealthAndSpeed(float health, float speed,Color color)
+    {
+        this.health = health;
+        this.speed = speed;
+        skinnedMeshRenderer.material.color = color;
     }
     private void OnCollisionEnter(Collision collision)
     {

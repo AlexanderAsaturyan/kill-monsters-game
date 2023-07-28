@@ -10,13 +10,14 @@ public class MonsterController : MonoBehaviour
 
     [SerializeField] private Animator animator;
     [SerializeField] private Transform monster;
-    [SerializeField] private GameController gameController;
+    [SerializeField] private GunController gun;
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
 
     public Animator Animator => animator;
 
     private float health;
     private float speed;
+    private int bulletDamage;
 
     private int isWalkingHash;
     private int isRunningHash;
@@ -47,20 +48,10 @@ public class MonsterController : MonoBehaviour
 
     private void Update()
     {
-      //  Debug.Log(animator.GetBool("isWalking"));
-        /* if (Input.GetKey(KeyCode.W))
-         {
-             animator.SetBool("isWalking", true);
-         }*/
-
-       // animator.SetBool(isWalkingHash, true);
-
         if (health <= 0)
         {
             DestroyMonster();
         }
-
-
 
        /* isWalking = animator.GetBool(isWalkingHash);
         wPressed = Input.GetKey(KeyCode.W);
@@ -90,17 +81,23 @@ public class MonsterController : MonoBehaviour
         monster.transform.position = Vector3.Lerp(monster.transform.position, targetPosition, Time.deltaTime * speed);
     }
 
+    public void ChangeBulletDamage(int bulletDamage)
+    {
+        this.bulletDamage = bulletDamage;
+    }
 
-    public void SetHealthAndSpeed(float health, float speed,Color color)
+    public void Setup(float health, float speed,Color color, int bulletDamage)
     {
         this.health = health;
         this.speed = speed;
         skinnedMeshRenderer.material.color = color;
+        this.bulletDamage = bulletDamage;
     }
+
     private void OnCollisionEnter(Collision collision)
     {
        // Debug.Log("Monster collision");
-        health--;
+        health = health - bulletDamage;
     }
 
     private void DestroyMonster()

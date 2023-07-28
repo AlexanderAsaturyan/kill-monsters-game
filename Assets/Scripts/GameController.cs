@@ -14,16 +14,35 @@ public class GameController : MonoBehaviour
     [SerializeField] private GunController gun;
     [SerializeField] private GameoverPopup popup;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private GunUpgrader gunUpgrader;
+
     public int score = 0;
 
     private bool gunDestroyed;
 
     private void Start()
     {
-      //  monster.MonsterController.speed = 0.2f;
-      //  monster.MonsterController.health = 2f;
+        //  monster.MonsterController.speed = 0.2f;
+        //  monster.MonsterController.health = 2f;
         popup.OnBackToMenuButtonClicked += GoToMenu;
         scoreText.text = $"Score: {score}";
+        gunUpgrader.OnGunUpgraded += UpgradeGun;
+    }
+
+    private void UpgradeGun()
+    {
+        monsterSpawner.ChangeBulletDamage(2);
+        foreach (var monster in monsterSpawner.Monsters)
+        {
+            if (monster != null)
+            {
+                var canGetComponent = monster.TryGetComponent<MonsterController>(out MonsterController monsterController);
+                if (canGetComponent)
+                {
+                    monsterController.ChangeBulletDamage(2);
+                }
+            }
+        }
     }
 
     private void GoToMenu()
@@ -33,15 +52,15 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-       // Debug.LogError(monsterSpawner.randomSeconds);
-       // Debug.LogError(monster.MonsterController.speed);
+        // Debug.LogError(monsterSpawner.randomSeconds);
+        // Debug.LogError(monster.MonsterController.speed);
         if (monsterSpawner.MonstersCount == 10 && !gunDestroyed)
         {
             Destroy(gun.gameObject);
 
             foreach (var monster in monsterSpawner.Monsters)
             {
-                if(monster.gameObject != null)
+                if (monster.gameObject != null)
                 {
                     monster.gameObject.SetActive(false);
                 }
@@ -60,7 +79,7 @@ public class GameController : MonoBehaviour
         // monster.MonsterController.health = 4;
         // monsterSpawner.randomSeconds = monsterSpawner.randomSeconds * 100f;
         //monster.MonsterController.SkinnedMeshRenderer.material.color = Color.red;
-        monsterSpawner.SetDifficulty(2f, 0.8f, 2, Color.red);
+        monsterSpawner.SetMonsterSpecs(2f, 0.8f, 2, Color.red);
     }
 
 
@@ -68,13 +87,13 @@ public class GameController : MonoBehaviour
     {
         if (monsterSpawner.MonstersCount == 10)
         {
-            return;            
+            return;
         }
 
         score++;
         scoreText.text = $"Score: {score}";
 
-        if(score == 10) 
+        if (score == 10)
         {
             ChangeGameDifficulty();
         }

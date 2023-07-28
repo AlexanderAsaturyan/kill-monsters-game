@@ -16,13 +16,19 @@ public class MonsterSpawner : MonoBehaviour
     private float health = 1;
     private int difficultyLevel = 1;
     private Color color = Color.white;
+    private int bulletDamage = 1;
 
-    public void SetDifficulty(float health, float speed, int difficultyLevel, Color color)
+    public void SetMonsterSpecs(float health, float speed, int difficultyLevel, Color color)
     {
         this.health = health;
         this.speed = speed;
         this.difficultyLevel = difficultyLevel;
         this.color = color;
+    }
+
+    public void ChangeBulletDamage(int bulletDamage)
+    {
+        this.bulletDamage = bulletDamage;
     }
 
     private System.Random random = new System.Random();
@@ -114,7 +120,7 @@ public class MonsterSpawner : MonoBehaviour
 
                 monsters.Add(monsterGO);
                 monstersCount++;
-                monster.MonsterController.SetHealthAndSpeed(health, speed, color);
+                monster.MonsterController.Setup(health, speed, color, bulletDamage);
                // monster.MonsterController.meshRenderer.material.color = Color.red;
               //  monster.MonsterController.SkinnedMeshRenderer.material.color = Color.red;
                 Debug.Log("Monster spawned");

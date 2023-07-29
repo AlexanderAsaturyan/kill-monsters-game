@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 public class MonsterController : MonoBehaviour
 {
@@ -26,25 +27,27 @@ public class MonsterController : MonoBehaviour
     private bool isWalking;
     private bool wPressed;
     private bool isRunning;
-    private bool leftShiftPressed; 
+    private bool leftShiftPressed;
 
+    private Vector3 monsterStartingPosition;
 
-
-   // public float Speed => speed;
+    // public float Speed => speed;
 
     private Vector3 targetPosition;
+    private Vector3 monsterDirection;
 
     private System.Random random = new System.Random();
     private int randX;
 
     private void Start()
     {
-       // spawnSound.Play();
+        monsterStartingPosition = monster.position;
         animator.SetBool("isWalking", true);
         //animator.SetBool("isRunning", true);
 
         randX = random.Next(-5, 5);
         targetPosition = new Vector3(randX, 0, 1);
+        RotateMonster();
     }
 
 
@@ -80,7 +83,14 @@ public class MonsterController : MonoBehaviour
             animator.SetBool(isRunningHash, false);
         }*/
 
-        monster.transform.position = Vector3.Lerp(monster.transform.position, targetPosition, Time.deltaTime * speed);
+        monster.position = Vector3.Lerp(monster.position, targetPosition, Time.deltaTime * speed);        
+    }
+
+    private void RotateMonster()
+    {
+        monsterDirection = targetPosition - monsterStartingPosition;
+        float angle = Vector3.Angle(Vector3.right, monsterDirection);
+        monster.eulerAngles = new Vector3(0, angle + 90, 0);
     }
 
     public void ChangeBulletDamage(int bulletDamage)

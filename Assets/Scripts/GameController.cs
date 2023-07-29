@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour
         // monster.MonsterController.health = 4;
         // monsterSpawner.randomSeconds = monsterSpawner.randomSeconds * 100f;
         //monster.MonsterController.SkinnedMeshRenderer.material.color = Color.red;
-        monsterSpawner.SetMonsterSpecs(2f, 0.8f, 2, Color.red);
+        monsterSpawner.SetMonsterSpecs(2f, 0.4f, 2, Color.red);
     }
 
 

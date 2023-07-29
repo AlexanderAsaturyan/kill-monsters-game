@@ -44,7 +44,7 @@ public class MonsterSpawner : MonoBehaviour
     private System.Random random = new System.Random();
     private int randX;
     private int randZ;
-    private Quaternion monsterRotation = new Quaternion(0, 180, 0, 0);
+    private Quaternion monsterRotation = new Quaternion(0, 90, 0, 0);
 
     private float delayTime;
     private float randomSeconds;
@@ -92,10 +92,11 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    private void FreezeSpawn()
+    private async void FreezeSpawn()
     {
         canSpawn = false;
         audioController.PlayFreezeSound();
+        await Task.Delay(3000);
         canSpawn = true;
     }
 
@@ -113,9 +114,10 @@ public class MonsterSpawner : MonoBehaviour
             if (canSpawn)
             {
                 yield return new WaitForSeconds(randomSeconds);
-                randX = random.Next(-10, 10);
+                randX = random.Next(-5, 5);
                 randZ = random.Next(5, 20);
-                GameObject monsterGO = Instantiate(monsterPrefab, new Vector3(randX, 0, randZ), monsterRotation);
+                GameObject monsterGO = Instantiate(monsterPrefab, new Vector3(randX, 0, randZ), Quaternion.identity);
+                monsterGO.transform.eulerAngles = new Vector3(0, 90, 0);
                 MonsterParent monster = monsterGO.GetComponent<MonsterParent>();
                 monster.MonsterController.OnMonsterDestroyed += gameController.IncrementScore;
                 monster.MonsterController.OnMonsterDestroyed += RemoveMonsterFromList;

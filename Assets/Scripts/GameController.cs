@@ -16,14 +16,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GunUpgrader gunUpgrader;
 
-    public int score = 0;
+    private int score = 0;
+    private int recordScore = 0;
 
     private bool gunDestroyed;
 
     private void Start()
-    {
-        //  monster.MonsterController.speed = 0.2f;
-        //  monster.MonsterController.health = 2f;
+    {       
         popup.OnBackToMenuButtonClicked += GoToMenu;
         scoreText.text = $"Score: {score}";
         gunUpgrader.OnGunUpgraded += UpgradeGun;
@@ -66,10 +65,23 @@ public class GameController : MonoBehaviour
                 }
             }
 
+
             monsterSpawner.gameObject.SetActive(false);
             popup.PopupScoreText.text = scoreText.text;
             popup.gameObject.SetActive(true);
             gunDestroyed = true;
+
+
+            if (score > recordScore)
+            {
+                Debug.LogError("score: " + score);
+                Debug.LogError("recordScore: " + recordScore);
+                recordScore = score;
+                Debug.LogError("-------------------");
+                Debug.LogError("score: " + score);
+                Debug.LogError("recordScore: " + recordScore);
+                PlayerPrefs.SetInt("Score", recordScore);
+            }
         }
     }
 

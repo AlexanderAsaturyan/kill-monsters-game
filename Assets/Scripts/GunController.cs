@@ -9,7 +9,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private Rigidbody bulletPrefab;
     [SerializeField] private GunUpgrader gunUpgrader;
     [SerializeField] private MeshRenderer meshRenderer;
-    [SerializeField] private MeshRenderer bulletMeshRenderer;
+    [SerializeField] private AudioController audioController;
 
     private Rigidbody bullet;
 
@@ -37,6 +37,7 @@ public class GunController : MonoBehaviour
         {
             bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.velocity = bulletSpawnPoint.forward * bulletSpeed;
+            audioController.PlayShootSound();
            // var x = bullet.GetComponent<MeshRenderer>().material.color;
             if (isUpgraded)
             {
@@ -52,5 +53,6 @@ public class GunController : MonoBehaviour
         bulletSpeed = 100;
         meshRenderer.material.color = Color.green;
         isUpgraded = true;
+        audioController.PlayGunUpgradeSound();
     }
 }

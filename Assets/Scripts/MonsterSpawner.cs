@@ -9,6 +9,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] private GameObject monsterPrefab;
     [SerializeField] private SpawnFreezer spawnFreezer;
     [SerializeField] private GameController gameController;
+    [SerializeField] private AudioController audioController;
 
     WaitForSeconds waitForTwoSeconds = new WaitForSeconds(2);
 
@@ -17,6 +18,15 @@ public class MonsterSpawner : MonoBehaviour
     private int difficultyLevel = 1;
     private Color color = Color.white;
     private int bulletDamage = 1;
+
+    private void Start()
+    {
+       // delayTime = randomSeconds;
+        spawnFreezer.OnSpawnPaused += FreezeSpawn;
+        StartCoroutine(GenerateRandomSeconds());
+        StartCoroutine(InstantiateMonster());
+        // StartCoroutine(PlayMonstersVoices());
+    }
 
     public void SetMonsterSpecs(float health, float speed, int difficultyLevel, Color color)
     {
@@ -46,14 +56,6 @@ public class MonsterSpawner : MonoBehaviour
     public List<GameObject> Monsters => monsters;
 
 
-    private void Start()
-    {
-       // delayTime = randomSeconds;
-        spawnFreezer.OnSpawnPaused += FreezeSpawn;
-        StartCoroutine(GenerateRandomSeconds());
-        StartCoroutine(InstantiateMonster());
-        // StartCoroutine(PlayMonstersVoices());
-    }
 
     private void Update()
     {
@@ -90,10 +92,10 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
-    private async void FreezeSpawn()
+    private void FreezeSpawn()
     {
         canSpawn = false;
-        await Task.Delay(3000);
+        audioController.PlayFreezeSound();
         canSpawn = true;
     }
 
@@ -121,8 +123,10 @@ public class MonsterSpawner : MonoBehaviour
                 monsters.Add(monsterGO);
                 monstersCount++;
                 monster.MonsterController.Setup(health, speed, color, bulletDamage);
-               // monster.MonsterController.meshRenderer.material.color = Color.red;
-              //  monster.MonsterController.SkinnedMeshRenderer.material.color = Color.red;
+                monster.MonsterController.OnMonsterHit += audioController.PlayMonsterHitSound;
+                // monster.MonsterController.meshRenderer.material.color = Color.red;
+                //  monster.MonsterController.SkinnedMeshRenderer.material.color = Color.red;
+               // spawnSound.Play();
                 Debug.Log("Monster spawned");
             }
 

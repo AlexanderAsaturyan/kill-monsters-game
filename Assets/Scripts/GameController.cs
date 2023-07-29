@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameoverPopup popup;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GunUpgrader gunUpgrader;
+    [SerializeField] private AudioSource gameplayMusic;
 
     public int score = 0;
 
@@ -24,6 +25,7 @@ public class GameController : MonoBehaviour
     {
         //  monster.MonsterController.speed = 0.2f;
         //  monster.MonsterController.health = 2f;
+        gameplayMusic.Play();
         popup.OnBackToMenuButtonClicked += GoToMenu;
         scoreText.text = $"Score: {score}";
         gunUpgrader.OnGunUpgraded += UpgradeGun;

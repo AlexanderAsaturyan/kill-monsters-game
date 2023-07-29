@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SpawnFreezer : MonoBehaviour
@@ -9,8 +10,7 @@ public class SpawnFreezer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("PAUSE SPAWN");
-        OnSpawnPaused?.Invoke();
+        OnSpawnPaused?.Invoke();;
         Destroy(gameObject);
     }
 }

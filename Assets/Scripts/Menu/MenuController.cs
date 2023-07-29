@@ -8,9 +8,11 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button recordButton;
     [SerializeField] private Button creditsButton;
     [SerializeField] private Button quitGame;
+    [SerializeField] private AudioSource menuMusic;
 
     private void Start()
     {
+        menuMusic.Play();
         newGameButton.onClick.AddListener(OpenNewGame);
         quitGame.onClick.AddListener(QuitGame);
     }

@@ -7,11 +7,12 @@ using System;
 public class MonsterController : MonoBehaviour
 {
     public event Action<GameObject> OnMonsterDestroyed;
+    public event Action OnMonsterHit;
 
     [SerializeField] private Animator animator;
     [SerializeField] private Transform monster;
-    [SerializeField] private GunController gun;
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
+
 
     public Animator Animator => animator;
 
@@ -38,6 +39,7 @@ public class MonsterController : MonoBehaviour
 
     private void Start()
     {
+       // spawnSound.Play();
         animator.SetBool("isWalking", true);
         //animator.SetBool("isRunning", true);
 
@@ -96,12 +98,14 @@ public class MonsterController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-       // Debug.Log("Monster collision");
+        // Debug.Log("Monster collision");
+        OnMonsterHit.Invoke();
         health = health - bulletDamage;
     }
 
     private void DestroyMonster()
     {
+      //  injurySound.Play();
         Destroy(transform.parent.gameObject);
     }
 

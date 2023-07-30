@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
+using TMPro;
 
 public class MenuController : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button creditsBackButton;
     [SerializeField] private Button quitGame;
     [SerializeField] private AudioSource menuMusic;
+    [SerializeField] private TextMeshProUGUI recordText;
 
     private void Start()
     {
@@ -25,6 +28,7 @@ public class MenuController : MonoBehaviour
         creditsBackButton.onClick.AddListener(BackToMenuFromCredits);
         quitGame.onClick.AddListener(QuitGame);
     }
+
     public void OpenNewGame()
     {
         Debug.Log("OpenNewGame");
@@ -35,6 +39,7 @@ public class MenuController : MonoBehaviour
     {
         mainMenu.gameObject.SetActive(false);
         recordsView.gameObject.SetActive(true);
+        ReadRecord();
     }
 
     public void OpenCreditsView()
@@ -53,6 +58,16 @@ public class MenuController : MonoBehaviour
     {
         mainMenu.gameObject.SetActive(true);
         creditsView.gameObject.SetActive(false);
+    }
+
+    private void ReadRecord()
+    {
+        string filepath = "record.txt";
+        StreamReader streamReader = new StreamReader(filepath);
+        string record = streamReader.ReadLine();
+        recordText.text = "Record: " + record;
+        streamReader.Close();
+        Debug.LogError("Record is: " + record);
     }
 
     public void QuitGame()

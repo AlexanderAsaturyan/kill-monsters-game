@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System;
 using System.Threading;
+using System.IO;
 
 public class GameController : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GunUpgrader gunUpgrader;
     [SerializeField] private AudioSource gameplayMusic;
 
-    public int score = 0;
+    private int score = 0;
+    private int recordScore;
 
     private bool gunDestroyed;
 
@@ -72,6 +74,7 @@ public class GameController : MonoBehaviour
             popup.PopupScoreText.text = scoreText.text;
             popup.gameObject.SetActive(true);
             gunDestroyed = true;
+            SaveRecordScore();
         }
     }
 
@@ -84,6 +87,29 @@ public class GameController : MonoBehaviour
         monsterSpawner.SetMonsterSpecs(2f, 0.4f, 2, Color.red);
     }
 
+    private void SaveRecordScore()
+    {
+        string filepath = "record.txt";
+        int record = 0;
+
+        StreamReader streamReader = new StreamReader(filepath);
+        string recordString = streamReader.ReadLine();
+        streamReader.Close();
+
+        if (!string.IsNullOrEmpty(recordString))
+        {
+            record = int.Parse(recordString);
+        }
+
+
+
+        if (score > record)
+        {
+            StreamWriter streamWriter = new StreamWriter(filepath);
+            streamWriter.Write(score);
+            streamWriter.Close();
+        }
+    }
 
     public void IncrementScore(GameObject monsterr)
     {
@@ -98,7 +124,7 @@ public class GameController : MonoBehaviour
         if (score == 10)
         {
             ChangeGameDifficulty();
-            if(gunUpgrader != null)
+            if (gunUpgrader != null)
             {
                 gunUpgrader.gameObject.SetActive(true);
             }

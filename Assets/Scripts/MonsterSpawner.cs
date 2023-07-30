@@ -115,7 +115,7 @@ public class MonsterSpawner : MonoBehaviour
             {
                 yield return new WaitForSeconds(randomSeconds);
                 randX = random.Next(-5, 5);
-                randZ = random.Next(5, 20);
+                randZ = random.Next(10, 15);
                 GameObject monsterGO = Instantiate(monsterPrefab, new Vector3(randX, 0, randZ), Quaternion.identity);
                 monsterGO.transform.eulerAngles = new Vector3(0, 90, 0);
                 MonsterParent monster = monsterGO.GetComponent<MonsterParent>();

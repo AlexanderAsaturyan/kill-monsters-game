@@ -62,12 +62,20 @@ public class MenuController : MonoBehaviour
 
     private void ReadRecord()
     {
-        string filepath = "record.txt";
-        StreamReader streamReader = new StreamReader(filepath);
-        string record = streamReader.ReadLine();
-        recordText.text = "Record: " + record;
-        streamReader.Close();
-        Debug.LogError("Record is: " + record);
+        string fileName = "record.txt";
+        string filepath = Path.Combine(Application.persistentDataPath, fileName);
+        if (File.Exists(filepath))
+        {
+            StreamReader streamReader = new StreamReader(filepath);
+            string record = streamReader.ReadLine();
+            recordText.text = "Record: " + record;
+            streamReader.Close();
+            Debug.LogError("Record is: " + record);
+        }
+        else
+        {
+            recordText.text = "No Records Detected";
+        }
     }
 
     public void QuitGame()

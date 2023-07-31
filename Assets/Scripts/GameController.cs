@@ -89,26 +89,41 @@ public class GameController : MonoBehaviour
 
     private void SaveRecordScore()
     {
-        string filepath = "record.txt";
+        string fileName = "record.txt";
+        string filepath = Path.Combine(Application.persistentDataPath, fileName);
         int record = 0;
 
-        StreamReader streamReader = new StreamReader(filepath);
-        string recordString = streamReader.ReadLine();
-        streamReader.Close();
-
-        if (!string.IsNullOrEmpty(recordString))
+        if (File.Exists(filepath))
         {
-            record = int.Parse(recordString);
+
+            StreamReader streamReader = new StreamReader(filepath);
+            string recordString = streamReader.ReadLine();
+            streamReader.Close();
+
+            if (!string.IsNullOrEmpty(recordString))
+            {
+                record = int.Parse(recordString);
+            }
         }
-
-
 
         if (score > record)
         {
-            StreamWriter streamWriter = new StreamWriter(filepath);
-            streamWriter.Write(score);
-            streamWriter.Close();
+            using (StreamWriter streamWriter = File.CreateText(filepath))
+            {
+                Debug.LogError("Creating file...");
+                Debug.LogError("filepath is " + filepath);
+                streamWriter.Write(score);
+                streamWriter.Close();
+            }
         }
+
+
+        //if (score > record)
+        //{
+        //    StreamWriter streamWriter = new StreamWriter(filepath);
+        //    streamWriter.Write(score);
+        //    streamWriter.Close();
+        //}
     }
 
     public void IncrementScore(GameObject monsterr)

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class GunController : MonoBehaviour
@@ -13,7 +9,6 @@ public class GunController : MonoBehaviour
     [SerializeField] private AudioController audioController;
 
     private Rigidbody bullet;
-
 
     private Vector2 turn;
     private float sensitivity = 5f;
@@ -39,13 +34,10 @@ public class GunController : MonoBehaviour
             bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.velocity = bulletSpawnPoint.forward * bulletSpeed;
             audioController.PlayShootSound();
-           // var x = bullet.GetComponent<MeshRenderer>().material.color;
             if (isUpgraded)
             {
-              //  x = Color.cyan;
                 bullet.GetComponent<MeshRenderer>().material.color = Color.cyan;
             }
-
         }
     }
 

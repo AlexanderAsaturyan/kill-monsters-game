@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -13,8 +11,6 @@ public class GameoverPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI popupScoreText;
 
     public TextMeshProUGUI PopupScoreText => popupScoreText;
-
-    public string STRING => popupScoreText.text;
 
     private void Start()
     {

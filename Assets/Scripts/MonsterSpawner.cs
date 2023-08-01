@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] private GameController gameController;
     [SerializeField] private AudioController audioController;
 
-    WaitForSeconds waitForTwoSeconds = new WaitForSeconds(2);
+    WaitForSeconds secondsForGenerateRandomSeconds = new WaitForSeconds(0.001f);
 
     private float speed = 0.2f;
     private float health = 1;
@@ -21,11 +20,9 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Start()
     {
-       // delayTime = randomSeconds;
         spawnFreezer.OnSpawnPaused += FreezeSpawn;
         StartCoroutine(GenerateRandomSeconds());
         StartCoroutine(InstantiateMonster());
-        // StartCoroutine(PlayMonstersVoices());
     }
 
     public void SetMonsterSpecs(float health, float speed, int difficultyLevel, Color color)
@@ -44,7 +41,6 @@ public class MonsterSpawner : MonoBehaviour
     private System.Random random = new System.Random();
     private int randX;
     private int randZ;
-    private Quaternion monsterRotation = new Quaternion(0, 90, 0, 0);
 
     private float delayTime;
     private float randomSeconds;
@@ -55,31 +51,11 @@ public class MonsterSpawner : MonoBehaviour
     private List<GameObject> monsters = new List<GameObject>();
     public List<GameObject> Monsters => monsters;
 
-
-
-    private void Update()
-    {
-        Debug.Log("Difficulty level: " + difficultyLevel);
-        Debug.Log("Random seconds: " + randomSeconds);
-
-    }
-
-    private IEnumerator PlayMonstersVoices()
-    {
-
-        if (monsters.Count >= 5)
-        {
-            Debug.Log("5+");
-            // monsters voices code here
-            yield return waitForTwoSeconds;
-        }
-    }
-
     private IEnumerator GenerateRandomSeconds()
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.001f);
+            yield return secondsForGenerateRandomSeconds;
 
             if(difficultyLevel == 1)
             {
@@ -104,7 +80,6 @@ public class MonsterSpawner : MonoBehaviour
     {
         monsters.Remove(monster);
         monstersCount--;
-       // Debug.LogError("monster removed. Monsters.Count: " + monsters.Count);
     }
 
     private IEnumerator InstantiateMonster()
@@ -125,11 +100,7 @@ public class MonsterSpawner : MonoBehaviour
                 monsters.Add(monsterGO);
                 monstersCount++;
                 monster.MonsterController.Setup(health, speed, color, bulletDamage);
-                monster.MonsterController.OnMonsterHit += audioController.PlayMonsterHitSound;
-                // monster.MonsterController.meshRenderer.material.color = Color.red;
-                //  monster.MonsterController.SkinnedMeshRenderer.material.color = Color.red;
-               // spawnSound.Play();
-                Debug.Log("Monster spawned");
+                monster.MonsterController.OnMonsterHit += audioController.PlayMonsterHitSound;             
             }
 
             else

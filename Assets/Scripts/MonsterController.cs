@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using System;
-using DG.Tweening;
 
 public class MonsterController : MonoBehaviour
 {
@@ -14,25 +10,13 @@ public class MonsterController : MonoBehaviour
     [SerializeField] private Transform monster;
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
 
-
     public Animator Animator => animator;
 
     private float health;
     private float speed;
     private int bulletDamage;
 
-    private int isWalkingHash;
-    private int isRunningHash;
-    private int isGettingHit;
-    private bool isWalking;
-    private bool wPressed;
-    private bool isRunning;
-    private bool leftShiftPressed;
-
     private Vector3 monsterStartingPosition;
-
-    // public float Speed => speed;
-
     private Vector3 targetPosition;
     private Vector3 monsterDirection;
 
@@ -43,7 +27,6 @@ public class MonsterController : MonoBehaviour
     {
         monsterStartingPosition = monster.position;
         animator.SetBool("isWalking", true);
-        //animator.SetBool("isRunning", true);
 
         randX = random.Next(-5, 5);
         targetPosition = new Vector3(randX, 0, 1);
@@ -57,31 +40,6 @@ public class MonsterController : MonoBehaviour
         {
             DestroyMonster();
         }
-
-       /* isWalking = animator.GetBool(isWalkingHash);
-        wPressed = Input.GetKey(KeyCode.W);
-        isRunning = animator.GetBool(isRunningHash);
-        leftShiftPressed = Input.GetKey(KeyCode.LeftShift);
-
-        if (wPressed && !isWalking)
-        {
-            animator.SetBool(isWalkingHash, true);
-        }
-
-        if (!wPressed && isWalking)
-        {
-            animator.SetBool(isWalkingHash, false);
-        }
-
-        if (!isRunning && (wPressed && leftShiftPressed))
-        {
-            animator.SetBool(isRunningHash, true);
-        }
-
-        if (isRunning && (!leftShiftPressed || !wPressed))
-        {
-            animator.SetBool(isRunningHash, false);
-        }*/
 
         monster.position = Vector3.Lerp(monster.position, targetPosition, Time.deltaTime * speed);        
     }
@@ -108,14 +66,12 @@ public class MonsterController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Debug.Log("Monster collision");
-        OnMonsterHit.Invoke();
+        OnMonsterHit?.Invoke();
         health = health - bulletDamage;
     }
 
     private void DestroyMonster()
     {
-      //  injurySound.Play();
         Destroy(transform.parent.gameObject);
     }
 

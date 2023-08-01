@@ -31,7 +31,6 @@ public class MenuController : MonoBehaviour
 
     public void OpenNewGame()
     {
-        Debug.Log("OpenNewGame");
         SceneManager.LoadScene(1);
     }
 
@@ -70,7 +69,6 @@ public class MenuController : MonoBehaviour
             string record = streamReader.ReadLine();
             recordText.text = "Record: " + record;
             streamReader.Close();
-            Debug.LogError("Record is: " + record);
         }
         else
         {

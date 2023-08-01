@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GunUpgrader : MonoBehaviour
@@ -9,7 +7,7 @@ public class GunUpgrader : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        OnGunUpgraded.Invoke();
+        OnGunUpgraded?.Invoke();
         Destroy(gameObject);
     }
 }
